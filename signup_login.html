@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container {
+            margin: 10px;
+            flex: 1;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-column {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .form-column label {
+            margin-top: 10px;
+        }
+
+        input, select {
+            padding: 5px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <title>Signup and Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Signup</h1>
+            <form id="signupForm">
+                <div class="form-column">
+                    <label for="fullname">Full Name:</label>
+                    <input type="text" id="fullname" required>
+                    <label for="gender">Gender:</label>
+                    <select id="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-column">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" required>
+                    <label for="state">State:</label>
+                    <input type="text" id="state" required>
+                    <label for="profession">Profession:</label>
+                    <input type="text" id="profession" required>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" required>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div id="message"></div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const signupForm = document.getElementById("signupForm");
+            const loginForm = document.getElementById("loginForm");
+            const message = document.getElementById("message");
+
+            // Signup Logic
+            signupForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const fullname = document.getElementById("fullname").value;
+                const gender = document.getElementById("gender").value;
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const phone = document.getElementById("phone").value;
+                const state = document.getElementById("state").value;
+                const profession = document.getElementById("profession").value;
+
+                const user = {
+                    fullname,
+                    gender,
+                    email,
+                    password,
+                    phone,
+                    state,
+                    profession
+                };
+
+                // Store user data in localStorage
+                localStorage.setItem(email, JSON.stringify(user));
+
+                message.textContent = confirm("Are you sure you want to submit");
+								message.textContent = alert("Signup Successfully");
+
+                signupForm.reset();
+            });
+
+            // Login Logic
+            loginForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const loginEmail = document.getElementById("loginEmail").value;
+                const loginPassword = document.getElementById("loginPassword").value;
+
+                // Retrieve user data from localStorage
+                const storedUser = JSON.parse(localStorage.getItem(loginEmail));
+
+                if (storedUser && storedUser.email === loginEmail && storedUser.password === loginPassword) { 
+                    message.textContent = alert("Login successful. Welcome, " + storedUser.fullname + "!");
+                } else {
+                    message.textContent = alert("Invalid Email or Password.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
